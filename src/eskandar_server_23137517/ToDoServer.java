@@ -5,7 +5,11 @@ import java.net.*;
 import java.util.*;
 // import java.text.SimpleDateFormat;
 
-//Explicit error handling for incorrect actions
+/*
+    IncorrectActionException is not placed in a catch block because it's a class that represents an exception, 
+    not an instance of an exception that has already occurred.
+    Explicit error handling for incorrect actions
+*/
 class IncorrectActionException extends Exception {
     public IncorrectActionException(String message) {
         super(message);
