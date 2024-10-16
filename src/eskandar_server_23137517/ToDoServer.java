@@ -33,6 +33,7 @@ class ToDoServer {
 
     private static class ClientHandler extends Thread {
         private Socket clientSocket;
+        private List<String> clientTasks = new ArrayList<>(); // Each client has its own task list
 
         public ClientHandler(Socket socket) {
             this.clientSocket = socket;
@@ -41,8 +42,8 @@ class ToDoServer {
         @Override
         public void run() {
             try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                 PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
-                 
+                    PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
+
                 String clientMessage;
                 while ((clientMessage = in.readLine()) != null) {
                     if (clientMessage.equals("STOP")) {
@@ -72,7 +73,7 @@ class ToDoServer {
                 throw new IncorrectActionException("Invalid message format! Message cannot be empty.");
             }
 
-            String[] parts = message.split(";", 2);  // Split into two parts: action and description
+            String[] parts = message.split(";", 2); // Split into two parts: action and description
             if (parts.length < 2) {
                 throw new IncorrectActionException("Invalid message format! Correct format: action; description");
             }
@@ -82,17 +83,20 @@ class ToDoServer {
 
             if (action.equals("add")) {
                 synchronized (tasks) {
-                    tasks.add(description);
+                    tasks.add(description); // Add to global tasks list (optional if you want to keep a global record)
                 }
+                clientTasks.add(description); // Add to the client-specific list
                 return "Task added: " + description;
             } else if (action.equals("list")) {
-                synchronized (tasks) {
-                    return tasks.isEmpty() ? "No tasks for this date" : String.join("; ", tasks);
+                if (clientTasks.isEmpty()) {
+                    return "No tasks for this session";
+                } else {
+                    return String.join("; ", clientTasks); // Return only client-specific tasks
                 }
             } else {
                 throw new IncorrectActionException("Incorrect action: " + action);
             }
         }
-
     }
+    
 }
