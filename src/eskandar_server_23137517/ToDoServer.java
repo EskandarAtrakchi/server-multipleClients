@@ -5,6 +5,7 @@ import java.net.*;
 import java.util.*;
 // import java.text.SimpleDateFormat;
 
+//Explicit error handling for incorrect actions
 class IncorrectActionException extends Exception {
     public IncorrectActionException(String message) {
         super(message);
