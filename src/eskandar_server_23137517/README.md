@@ -1,5 +1,5 @@
-# A step-by-step explanation of how to build the server.
---------------------------------------------------------
+# A step-by-step explanation of how to build the server-side.
+-------------------------------------------------------------
 
 ### 1. **Import necessary libraries**
    - Include libraries for handling input/output, networking (sockets), and data structures (e.g., lists).
