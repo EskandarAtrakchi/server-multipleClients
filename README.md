@@ -4,7 +4,7 @@
 ## Server Steps (`ToDoServer`)
 
 1. **Define Package**: 
-   - Organizes the server class within the `eskandar_server_23137517` package.
+   - Organizes the server class within the `eskandar_server_23137517` package as required for server side.
 
 2. **Import Libraries**: 
    - Imports necessary Java libraries for input/output, networking, and utilities.
@@ -42,7 +42,7 @@
 ## Client Steps (`ToDoClient`)
 
 1. **Define Package**:
-   - Organizes the client class within the `eskandar_client_23137517` package.
+   - Organizes the client class within the `eskandar_client_23137517` package as required for client side.
 
 2. **Import Libraries**:
    - Imports necessary Java libraries for input/output, networking, and reading user input.
