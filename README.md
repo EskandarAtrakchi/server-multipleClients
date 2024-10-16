@@ -1,7 +1,7 @@
 # Getting Started 
 ------------------
 
-### Server Steps (`ToDoServer`)
+## Server Steps (`ToDoServer`)
 
 1. **Define Package**: 
    - Organizes the server class within the `eskandar_server_23137517` package.
@@ -39,7 +39,7 @@
 12. **Handle Exceptions**:
     - Catches and prints any `IOException` that occurs while starting the server or during communication.
 
-### Client Steps (`ToDoClient`)
+## Client Steps (`ToDoClient`)
 
 1. **Define Package**:
    - Organizes the client class within the `eskandar_client_23137517` package.
