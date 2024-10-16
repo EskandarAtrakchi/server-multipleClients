@@ -8,7 +8,7 @@ import java.util.*;
 class IncorrectActionException extends Exception {
     public IncorrectActionException(String message) {
         super(message);
-    }
+    } 
 }
 
 class ToDoServer {
