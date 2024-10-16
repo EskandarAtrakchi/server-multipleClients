@@ -3,13 +3,7 @@ package eskandar_server_23137517;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-// import java.text.SimpleDateFormat;
 
-/*
-    IncorrectActionException is not placed in a catch block because it's a class that represents an exception, 
-    not an instance of an exception that has already occurred.
-    Explicit error handling for incorrect actions
-*/
 class IncorrectActionException extends Exception {
     public IncorrectActionException(String message) {
         super(message);
@@ -17,14 +11,12 @@ class IncorrectActionException extends Exception {
 }
 
 class ToDoServer {
-    private static List<String> tasks = Collections.synchronizedList(new ArrayList<>());
-
     public static void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(8081)) {
             System.out.println("Server started, waiting for clients...");
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-                new ClientHandler(clientSocket).start();
+                new ClientHandler(clientSocket).start(); // Handle each client with a new thread
             }
         } catch (IOException e) {
             System.out.println("Error starting the server: " + e.getMessage());
@@ -33,16 +25,17 @@ class ToDoServer {
 
     private static class ClientHandler extends Thread {
         private Socket clientSocket;
-        private List<String> clientTasks = new ArrayList<>(); // Each client has its own task list
+        private List<String> clientTasks; // Each client will have its own task list
 
         public ClientHandler(Socket socket) {
             this.clientSocket = socket;
+            this.clientTasks = Collections.synchronizedList(new ArrayList<>()); // Initialize a new task list for each client
         }
 
         @Override
         public void run() {
             try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                    PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
+                 PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
 
                 String clientMessage;
                 while ((clientMessage = in.readLine()) != null) {
@@ -73,7 +66,7 @@ class ToDoServer {
                 throw new IncorrectActionException("Invalid message format! Message cannot be empty.");
             }
 
-            String[] parts = message.split(";", 2); // Split into two parts: action and description
+            String[] parts = message.split(";", 2); // Split into action and description
             if (parts.length < 2) {
                 throw new IncorrectActionException("Invalid message format! Correct format: action; description");
             }
@@ -82,21 +75,25 @@ class ToDoServer {
             String description = parts[1].trim();
 
             if (action.equals("add")) {
-                synchronized (tasks) {
-                    tasks.add(description); // Add to global tasks list (optional if you want to keep a global record)
+                synchronized (clientTasks) {
+                    clientTasks.add(description);
                 }
-                clientTasks.add(description); // Add to the client-specific list
                 return "Task added: " + description;
             } else if (action.equals("list")) {
-                if (clientTasks.isEmpty()) {
-                    return "No tasks for this session";
-                } else {
-                    return String.join("; ", clientTasks); // Return only client-specific tasks
+                synchronized (clientTasks) {
+                    return clientTasks.isEmpty() ? "No tasks available" : String.join("; ", clientTasks);
+                }
+            } else if (action.equals("remove")) {
+                synchronized (clientTasks) {
+                    if (clientTasks.remove(description)) {
+                        return "Task removed: " + description;
+                    } else {
+                        return "Task not found: " + description;
+                    }
                 }
             } else {
                 throw new IncorrectActionException("Incorrect action: " + action);
             }
         }
     }
-    
 }
