@@ -1,5 +1,5 @@
-# Line-By-Line of how to code the client side
----------------------------------------------
+# Line-By-Line of how client side works
+----------------------------------------
 
 ### 1. **Import necessary libraries**
    - Include libraries for input/output handling, networking (sockets), and user input (scanner).
