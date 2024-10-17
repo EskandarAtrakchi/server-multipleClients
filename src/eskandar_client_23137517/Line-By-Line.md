@@ -1,5 +1,5 @@
-# A step-by-step explanation of how to build the client-side.
--------------------------------------------------------------
+# Line-By-Line of how to code the client side
+---------------------------------------------
 
 ### 1. **Import necessary libraries**
    - Include libraries for input/output handling, networking (sockets), and user input (scanner).
@@ -48,3 +48,4 @@
 
 ### 16. **Close the client socket**
    - After the user sends the "STOP" command or the client disconnects, ensure that the client socket is properly closed to release resources.
+   
