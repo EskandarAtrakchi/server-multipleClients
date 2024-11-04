@@ -9,3 +9,9 @@ You can run multiple clients to interact with the same server, knowing that all 
 {% endhint %}
 
 4. If you have multiple clients you can retrieve only what client added as other clients do not have share resources.
+
+<figure><img src=".gitbook/assets/Screenshot (1038).png" alt=""><figcaption><p>Client 1 tested </p></figcaption></figure>
+
+
+
+<figure><img src=".gitbook/assets/Screenshot (1039).png" alt=""><figcaption><p>Client 2 tested</p></figcaption></figure>
